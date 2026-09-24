@@ -1,0 +1,138 @@
+/**
+ * Droomvrouwroute Stylesheet
+ *
+ * Theme Name: De Droomvrouwroute
+ * Theme URI: http://example.com/droomvrouwroute
+ * Description: Thema voor de interactieve, gelaagde plattegrond van De Droomvrouwroute.
+ * Author: Ridouan Rashid
+ * Author URI: http://example.com
+ * Version: 1.0
+ *
+ * Dit stylesheet bevat de algemene basisstyling van het thema, met het
+ * kleurenpalet en lettertype uit Barbara's originele ontwerp. De styling
+ * van de plattegrond zelf staat in de plugin "droomvrouwroute-kaart".
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap');
+
+:root {
+    --dvr-crème: #f4ecc9;
+    --dvr-navy: #0c0940;
+    --dvr-navy-zacht: #2b2e6f;
+    --dvr-rand: #ddd2ad;
+    --dvr-wit: #b9b3a1;
+    --dvr-groen: #4a7c59;
+    --dvr-rood: #b03a2e;
+    --dvr-blauw: #2e5fb0;
+    --dvr-titel-font: 'Fredoka', 'Trebuchet MS', sans-serif;
+}
+
+/* ========================================
+   BASE STYLES
+   ======================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--dvr-crème);
+    color: var(--dvr-navy);
+    display: grid;
+    min-height: 100vh;
+    grid-template-rows: auto 1fr auto;
+}
+
+a {
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+
+.site-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--dvr-rand);
+}
+
+.site-header .site-title {
+    margin: 0;
+    font-family: var(--dvr-titel-font);
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: 0.01em;
+}
+
+.site-header .site-title a {
+    text-decoration: none;
+}
+
+.hoofdmenu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.hoofdmenu a {
+    text-decoration: none;
+}
+
+.hoofdmenu a:hover {
+    text-decoration: underline;
+}
+
+.header-extra {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-size: 0.9rem;
+}
+
+.header-extra a {
+    text-decoration: none;
+    opacity: 0.75;
+}
+
+.header-extra a:hover {
+    opacity: 1;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+
+.site-footer {
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid var(--dvr-rand);
+    font-size: 0.85rem;
+    text-align: center;
+    opacity: 0.75;
+}
+
+/* ========================================
+   GENERIC PAGE CONTENT (niet-plattegrond)
+   ======================================== */
+
+.pagina-inhoud {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+    line-height: 1.6;
+}
