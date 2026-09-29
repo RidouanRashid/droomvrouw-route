@@ -86,15 +86,6 @@
     cursor: pointer;
 }
 
-.dvr-laag-swatch {
-    display: inline-block;
-    width: 0.8rem;
-    height: 0.8rem;
-    border-radius: 50%;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    flex: none;
-}
-
 /* ---- Zoekveld (linksonder) ---- */
 
 .dvr-zoek {
@@ -160,17 +151,24 @@
     overflow: hidden;
     cursor: grab;
     touch-action: none;
+    container-type: size;
 }
 
 .dvr-kaart-venster.is-slepen {
     cursor: grabbing;
 }
 
+/* De schaal-box krijgt exact dezelfde beeldverhouding als de basiskaart
+   (via --dvr-kaart-w/--dvr-kaart-h, uit shortcode.php) en wordt daarbinnen
+   gecentreerd — zo vallen de infopunt-percentages (left/top) altijd op
+   dezelfde plek op de kaartafbeelding, ongeacht de vorm van het kaartvenster
+   zelf (i.p.v. uit te rekken naar de volledige, vaak andere, venster-ratio). */
 .dvr-kaart-schaal {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
+    margin: auto;
+    width: min(100cqw, 100cqh * (var(--dvr-kaart-w, 1056) / var(--dvr-kaart-h, 790)));
+    height: min(100cqh, 100cqw * (var(--dvr-kaart-h, 790) / var(--dvr-kaart-w, 1056)));
     transform-origin: 0 0;
     will-change: transform;
 }
@@ -195,28 +193,78 @@
 }
 
 /* ---- Infopunt-markers ---- */
+/* De button zelf is het klikbare vlak (min. 44x44px, Apple/Google-richtlijn
+   voor aanraakdoelen); de zichtbare "inktvlek" zit als ::after gecentreerd
+   erin, met een ::before als zachte spatring die bij hover/focus opbloeit —
+   zodat het aanraakgebied niet hetzelfde formaat hoeft te hebben als het
+   zichtbare puntje, en de stip meer als een handgeschilderde markering op de
+   aquarel-kaart oogt dan als een strak UI-bolletje. */
 
 .infopunt-marker {
     position: absolute;
-    width: 1rem;
-    height: 1rem;
+    width: 2.75rem;
+    height: 2.75rem;
     transform: translate(-50%, -50%);
-    border-radius: 50%;
-    border: 2px solid #fff;
-    background: var(--dvr-navy, #1a2340);
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
     display: none;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
     padding: 0;
 }
 
 .infopunt-marker.is-actief {
-    display: block;
+    display: flex;
 }
 
-.infopunt-marker:hover,
+.infopunt-marker::before {
+    content: '';
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(161, 61, 43, 0.35), rgba(161, 61, 43, 0) 72%);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.infopunt-marker::after {
+    content: '';
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 58% 42% 63% 37% / 45% 58% 42% 55%;
+    border: 2px solid #fdf8e8;
+    background: var(--dvr-inkt, #a13d2b);
+    box-shadow: 0 1px 4px rgba(20, 10, 5, 0.5);
+    transition: transform 0.2s ease, border-radius 0.2s ease;
+}
+
+.infopunt-marker:nth-of-type(3n)::after {
+    border-radius: 45% 55% 40% 60% / 60% 45% 55% 40%;
+}
+
+.infopunt-marker:nth-of-type(3n+1)::after {
+    border-radius: 62% 38% 55% 45% / 40% 60% 40% 60%;
+}
+
+.infopunt-marker:hover::before,
+.infopunt-marker:focus-visible::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.infopunt-marker:hover::after,
+.infopunt-marker:focus-visible::after {
+    transform: scale(1.3);
+    border-radius: 50%;
+}
+
 .infopunt-marker:focus-visible {
-    transform: translate(-50%, -50%) scale(1.4);
+    outline: 2px solid var(--dvr-inkt, #a13d2b);
+    outline-offset: 2px;
+    border-radius: 50%;
 }
 
 /* ---- Zweefballon met plaatsnaam ---- */
@@ -323,5 +371,10 @@
 
     .dvr-zoek {
         width: calc(100vw - 2.5rem);
+    }
+
+    .infopunt-marker {
+        width: 3rem;
+        height: 3rem;
     }
 }

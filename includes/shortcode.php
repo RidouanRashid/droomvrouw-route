@@ -15,7 +15,18 @@ function droomvrouwroute_kaart_assets() {
 function droomvrouwroute_kaart_shortcode() {
     droomvrouwroute_kaart_assets();
 
-    $basis_kaart_url = droomvrouwroute_afbeelding_url( get_option( 'options_basis_kaart' ) );
+    $basis_kaart_id  = get_option( 'options_basis_kaart' );
+    $basis_kaart_url = droomvrouwroute_afbeelding_url( $basis_kaart_id );
+
+    $kaart_breedte = 1056;
+    $kaart_hoogte  = 790;
+    if ( $basis_kaart_id && is_numeric( $basis_kaart_id ) ) {
+        $afmetingen = wp_get_attachment_image_src( $basis_kaart_id, 'full' );
+        if ( $afmetingen ) {
+            $kaart_breedte = $afmetingen[1];
+            $kaart_hoogte  = $afmetingen[2];
+        }
+    }
 
     $lagen = get_terms( array(
         'taxonomy'   => 'laag',
@@ -46,9 +57,7 @@ function droomvrouwroute_kaart_shortcode() {
             <details class="dvr-paneel dvr-paneel-lijnen" open>
                 <summary>De lijnen</summary>
                 <ul>
-                    <?php foreach ( $lagen as $index => $laag ) :
-                        $kleur = get_term_meta( $laag->term_id, 'kleur', true );
-                        ?>
+                    <?php foreach ( $lagen as $index => $laag ) : ?>
                         <li>
                             <label>
                                 <input
@@ -57,7 +66,6 @@ function droomvrouwroute_kaart_shortcode() {
                                     data-laag="<?php echo esc_attr( $laag->slug ); ?>"
                                     <?php checked( 0 === $index ); ?>
                                 >
-                                <span class="dvr-laag-swatch" style="background-color: <?php echo esc_attr( $kleur ? $kleur : '#999' ); ?>"></span>
                                 <?php echo esc_html( $laag->name ); ?>
                             </label>
                         </li>
@@ -72,7 +80,11 @@ function droomvrouwroute_kaart_shortcode() {
             <div class="dvr-zoek-resultaten" id="dvr-zoek-resultaten" hidden></div>
         </div>
 
-        <div class="dvr-kaart-venster" id="dvr-kaart-venster">
+        <div
+            class="dvr-kaart-venster"
+            id="dvr-kaart-venster"
+            style="--dvr-kaart-w: <?php echo esc_attr( $kaart_breedte ); ?>; --dvr-kaart-h: <?php echo esc_attr( $kaart_hoogte ); ?>;"
+        >
             <div class="dvr-kaart-schaal" id="dvr-kaart-schaal">
 
                 <?php if ( $basis_kaart_url ) : ?>

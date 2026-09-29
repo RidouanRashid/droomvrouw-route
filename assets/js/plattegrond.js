@@ -187,8 +187,8 @@ document.addEventListener( 'DOMContentLoaded', function () {
             } );
 
             var vensterRect = venster.getBoundingClientRect();
-            var links = parseFloat( marker.style.left ) / 100 * vensterRect.width;
-            var boven = parseFloat( marker.style.top ) / 100 * vensterRect.height;
+            var links = parseFloat( marker.style.left ) / 100 * schaal.offsetWidth;
+            var boven = parseFloat( marker.style.top ) / 100 * schaal.offsetHeight;
             stand.schaal = 2;
             stand.x = vensterRect.width / 2 - links * stand.schaal;
             stand.y = vensterRect.height / 2 - boven * stand.schaal;
