@@ -50,6 +50,15 @@ function droomvrouwroute_kaart_shortcode() {
     ?>
     <div class="dvr-kaart-wrap">
 
+        <img class="dvr-achtergrond-vlek" src="<?php echo esc_url( DVR_KAART_URL . 'assets/img/achtergrond-schoon.png' ); ?>" alt="" aria-hidden="true">
+
+        <div class="dvr-titel" aria-hidden="true">
+            <span>De</span>
+            <span>Droom</span>
+            <span>vrouw</span>
+            <span>route</span>
+        </div>
+
         <img class="dvr-ondertitel" src="<?php echo esc_url( DVR_KAART_URL . 'assets/img/ondertitel.png' ); ?>" alt="Maak nu je droom waar">
 
         <div class="dvr-paneel-groep">

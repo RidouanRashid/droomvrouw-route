@@ -8,11 +8,47 @@
     height: 100vh;
     overflow: hidden;
     background-color: var(--dvr-crème, #f4ecc9);
-    background-image: url('../img/achtergrond-titel.jpg');
-    background-repeat: no-repeat;
-    background-position: -0.5rem -0.5rem;
-    background-size: clamp(20rem, 55vw, 34rem) auto;
     display: block;
+}
+
+/* ---- Aquarel-vlek linksboven (schone foto, zonder tekst) ---- */
+/* Tussen de oude kleine versie (~16%/20%) en het volledige ontwerp (~60%) in:
+   een vaste bounding box van 35% breed / 45% hoog, met object-fit: contain
+   zodat de eigen beeldverhouding behouden blijft (geen uitrekken). Lager
+   z-index dan het kaartvenster, zodat de echte kaart/markers er nooit door
+   bedekt kunnen worden. */
+.dvr-achtergrond-vlek {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 35%;
+    height: 45%;
+    object-fit: contain;
+    object-position: left top;
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* ---- Titel linksboven ("De Droom vrouw route") ---- */
+/* Live tekst (geen foto) zodat lettergrootte/-gewicht apart van de vlek
+   instelbaar is. Tussenin qua grootte tussen de oude 1.9vw en het ontwerp
+   (~5vw). Zelfde kopfont als de rest van het thema (Fredoka, al in 700
+   geladen via style.css). */
+.dvr-titel {
+    position: absolute;
+    left: 4%;
+    top: 4%;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--dvr-titel-font, 'Fredoka', 'Trebuchet MS', sans-serif);
+    font-weight: 700;
+    font-size: clamp(32px, 3.4vw, 64px);
+    line-height: 1.1;
+    letter-spacing: 0.06em;
+    color: #4a5f6e;
+    pointer-events: none;
 }
 
 /* ---- Ondertitel rechtsonder-ish, net als "Maak nu je droom waar" ---- */
@@ -270,15 +306,24 @@
 /* ---- Zweefballon met plaatsnaam ---- */
 
 .dvr-tooltip {
+    /* Exacte typografie overgenomen uit de GIMP-brontekstlagen (parasite-data
+       van bv. "Kassel"/"EDUCATIE"): Trebuchet MS Bold, 12px, letter-spacing 4px
+       op 12px = 1/3em, kleur #050333 (bijna zwart, iets blauwgrijs). Geen
+       kader/achtergrond — gewoon tekst op de kaart, net als in het ontwerp. */
     position: fixed;
     z-index: 200;
-    background: var(--dvr-navy, #1a2340);
-    color: #fff;
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
+    background: none;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    color: #050333;
+    font-family: 'Trebuchet MS', 'Trebuchet MS Bold', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.333em;
     pointer-events: none;
-    transform: translate(-50%, -140%);
+    transform: translateY(-50%);
     white-space: nowrap;
 }
 
@@ -360,8 +405,9 @@
 /* ---- Responsief (telefoon) ---- */
 
 @media (max-width: 600px) {
-    .dvr-kaart-wrap {
-        background-size: clamp(14rem, 70vw, 22rem) auto;
+    .dvr-achtergrond-vlek {
+        width: 45%;
+        height: 30%;
     }
 
     .dvr-paneel-groep {

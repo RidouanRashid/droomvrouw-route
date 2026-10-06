@@ -148,20 +148,25 @@ document.addEventListener( 'DOMContentLoaded', function () {
     } );
 
     /* ================= Hover-tooltip met plaatsnaam ================= */
+    /* Tekst verschijnt rechts van het puntje, verticaal gecentreerd, met een
+       vaste marge — net als in het ontwerp — i.p.v. de muiscursor te volgen,
+       zodat het label het puntje zelf nooit bedekt. */
     var tooltip = document.getElementById( 'dvr-tooltip' );
+    var DVR_TOOLTIP_MARGE = 8;
     if ( tooltip ) {
         schaal.querySelectorAll( '.infopunt-marker' ).forEach( function ( marker ) {
             var naam = marker.getAttribute( 'aria-label' ) || '';
-            marker.addEventListener( 'mouseenter', function ( event ) {
+            function positioneerTooltip() {
+                var markerRect = marker.getBoundingClientRect();
+                tooltip.style.left = ( markerRect.right + DVR_TOOLTIP_MARGE ) + 'px';
+                tooltip.style.top = ( markerRect.top + markerRect.height / 2 ) + 'px';
+            }
+            marker.addEventListener( 'mouseenter', function () {
                 tooltip.textContent = naam;
-                tooltip.style.left = event.clientX + 'px';
-                tooltip.style.top = event.clientY + 'px';
+                positioneerTooltip();
                 tooltip.hidden = false;
             } );
-            marker.addEventListener( 'mousemove', function ( event ) {
-                tooltip.style.left = event.clientX + 'px';
-                tooltip.style.top = event.clientY + 'px';
-            } );
+            marker.addEventListener( 'mousemove', positioneerTooltip );
             marker.addEventListener( 'mouseleave', function () {
                 tooltip.hidden = true;
             } );
