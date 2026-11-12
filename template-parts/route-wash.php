@@ -1,0 +1,1 @@
+<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/route-wash.webp' ); ?>" alt="" width="780" height="796" loading="lazy" decoding="async" class="pointer-events-none absolute -right-24 top-24 -z-10 w-[min(110vw,52rem)] select-none opacity-20 lg:-right-10 lg:top-40">

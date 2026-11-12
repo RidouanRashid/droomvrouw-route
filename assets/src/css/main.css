@@ -1,0 +1,276 @@
+@import "tailwindcss" source(none);
+
+@source "../../../*.php";
+@source "../../../inc/**/*.php";
+@source "../../../template-parts/**/*.php";
+@source "../../js/**/*.js";
+
+@custom-variant js (&:where(.js, .js *));
+
+@font-face {
+  font-family: "Literata";
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("../fonts/literata-latin-wght-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Literata";
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("../fonts/literata-latin-wght-italic.woff2") format("woff2");
+}
+
+@theme {
+  --color-paper: #f4ecc8;
+  --color-paper-light: #faf5df;
+  --color-ink: #050333;
+  --color-logo: #1a2c3d;
+  --color-body: #2c3747;
+  --color-muted: #6b6655;
+  --color-rule: #d5cfaf;
+  --color-link: #2f6e95;
+
+  --font-sans: Verdana, "DejaVu Sans", Geneva, Tahoma, sans-serif;
+  --font-serif: "Literata", Georgia, "Times New Roman", serif;
+}
+
+@layer base {
+  :root {
+    --logo-size: 1.5rem;
+
+    @media (width >= 64rem) {
+      --logo-size: 2.1rem;
+    }
+  }
+
+  html {
+    scroll-padding-top: 2rem;
+  }
+
+  body {
+    overflow-x: clip;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+@layer components {
+  .nav-heading {
+    @apply font-sans text-xl font-bold tracking-[0.14em] lg:text-right lg:text-[1.6rem];
+  }
+
+  .nav-list {
+    @apply mt-3 font-sans font-bold tracking-[0.14em] lg:mt-2 lg:text-right;
+  }
+
+  .nav-list a {
+    @apply flex items-center gap-3 border-b border-rule py-4 text-xl text-muted hover:text-ink lg:justify-end lg:border-0 lg:py-1 lg:text-[1.05rem];
+  }
+
+  .nav-list--lines a {
+    @apply text-ink lg:text-muted;
+  }
+
+  .nav-list a[aria-current="page"],
+  .nav-list .current-menu-item > a {
+    @apply text-ink;
+  }
+
+  .nav-list a[aria-current="page"] > span:first-child,
+  .nav-list .current-menu-item > a {
+    @apply underline decoration-2 underline-offset-[7px];
+  }
+
+  .nav-dot {
+    @apply inline-block size-3.5 shrink-0 rounded-full border border-muted/60 bg-[var(--dot)] lg:size-3;
+  }
+
+  @media (width < 64rem) {
+    .js .nav-panel:not(.is-open) {
+      display: none;
+    }
+
+    .nav-panel {
+      @apply w-full;
+      margin-top: calc(var(--logo-size) * 4);
+    }
+
+    .js .nav-panel {
+      @apply fixed inset-0 z-40 mt-0 overflow-y-auto bg-paper bg-no-repeat px-5 pb-12 pt-44 sm:px-8;
+      background-image: url("../img/wash.webp");
+      background-size: calc(var(--logo-size) * 10.5) auto;
+    }
+  }
+
+  .journey-line {
+    @apply h-2 bg-[var(--line)];
+  }
+
+  .journey-line-v {
+    @apply w-2 rounded-full bg-[var(--line)];
+  }
+
+  .line-drawn .journey-line {
+    @apply h-3 rounded-none;
+    mask: url("../img/line-drawn.svg") repeat-x left center / 15rem 100%;
+  }
+
+  .line-drawn .journey-line-v {
+    @apply w-3 rounded-none;
+    mask: url("../img/line-drawn-v.svg") repeat-y center top / 100% 15rem;
+  }
+
+  .is-light-line .journey-line,
+  .is-light-line .journey-line-v {
+    @apply bg-transparent;
+    mask: none;
+  }
+
+  .is-light-line .journey-line::after,
+  .is-light-line .journey-line-v::after {
+    @apply absolute inset-0 bg-[var(--line)] content-[''];
+  }
+
+  .line-drawn.is-light-line .journey-line::after {
+    mask: url("../img/line-drawn.svg") repeat-x left center / 15rem 100%;
+  }
+
+  .line-drawn.is-light-line .journey-line-v::after {
+    mask: url("../img/line-drawn-v.svg") repeat-y center top / 100% 15rem;
+  }
+
+  .is-light-line .journey-line,
+  .is-light-line .journey-line-v,
+  .is-light-line .dv-marker svg {
+    filter: drop-shadow(0 1px 2px rgb(74 62 20 / 0.45));
+  }
+
+  .dv-marker {
+    --marker-fill: var(--color-paper);
+    --marker-ink: var(--color-ink);
+  }
+
+  .dv-marker.is-active {
+    --marker-fill: var(--line);
+    --marker-ink: var(--color-paper);
+  }
+
+  .is-light-line .dv-marker.is-active {
+    --marker-ink: var(--color-ink);
+  }
+
+  .dv-marker--image .dv-marker__number {
+    color: var(--color-ink);
+    text-shadow: 0 0 3px var(--color-paper), 0 0 3px var(--color-paper);
+  }
+
+  .dv-marker--image.is-active {
+    @apply rounded-full outline-3 outline-offset-2 outline-[var(--line)];
+  }
+
+  a:hover .dv-marker:not(.is-active) {
+    --marker-fill: var(--color-paper-light);
+  }
+
+  .carousel-track {
+    @apply snap-x snap-mandatory overflow-x-auto overscroll-x-contain;
+  }
+
+  .js .carousel-track {
+    scrollbar-width: none;
+  }
+
+  .js .carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carousel-track:focus-visible {
+    outline-offset: 6px;
+  }
+
+  .carousel-button {
+    @apply absolute top-[var(--arrow-top)] z-10 grid size-12 -translate-y-1/2 place-items-center text-ink sm:static sm:size-14 sm:translate-y-0 sm:rounded-full sm:border-2 sm:border-ink sm:hover:bg-ink sm:hover:text-paper;
+  }
+
+  .carousel-button[aria-disabled="true"] {
+    @apply cursor-default opacity-30 sm:hover:bg-transparent sm:hover:text-ink;
+  }
+
+  .carousel-buttons:not(:has(> :not([hidden]))) {
+    @apply hidden;
+  }
+
+  .counter {
+    @apply absolute bottom-3 left-3 bg-ink/90 px-3 py-1 font-sans text-sm tracking-[0.2em] text-paper;
+  }
+
+  .stretched-link::after {
+    @apply absolute inset-0 z-20 content-[''];
+  }
+
+  .stretched-link:focus-visible {
+    outline: none;
+  }
+
+  .stretched-link:focus-visible::after {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 6px;
+  }
+
+  .read-more {
+    @apply font-sans text-sm tracking-[0.12em] text-link underline underline-offset-4;
+  }
+
+  .group:hover .read-more {
+    @apply text-ink;
+  }
+
+  .photo-frame {
+    @apply bg-white p-2 shadow-[0_6px_18px_rgb(0_0_0/0.15)] sm:p-3;
+  }
+
+  .route-end__dot {
+    @apply block size-14 rounded-full bg-[var(--line)] shadow-[0_0_0_5px_var(--color-paper-light),0_4px_10px_rgb(0_0_0/0.18)];
+  }
+
+  .btn {
+    @apply inline-block bg-ink px-7 py-3.5 font-sans text-sm font-bold tracking-[0.14em] text-paper hover:bg-link;
+  }
+
+  .entry-content > * + * {
+    @apply mt-5;
+  }
+
+  .entry-content a {
+    @apply text-link underline underline-offset-4 hover:text-ink;
+  }
+
+  .entry-content h2,
+  .entry-content h3 {
+    @apply mt-10 font-sans font-bold tracking-[0.1em] text-ink;
+  }
+
+  .entry-content img {
+    @apply h-auto max-w-full;
+  }
+}
+
+@media (width < 64rem) {
+  .menu-open .site-header {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+  }
+}
