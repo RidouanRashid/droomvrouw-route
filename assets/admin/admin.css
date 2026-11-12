@@ -1,0 +1,147 @@
+.dv-marker-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.dv-marker-choice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  background: #f4ecc8;
+  cursor: pointer;
+}
+
+.dv-marker-choice:has(input:checked) {
+  border-color: #2f6e95;
+  box-shadow: 0 0 0 2px #2f6e95;
+}
+
+.dv-marker-choice__shape,
+.dv-marker-column {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+}
+
+.dv-marker-column {
+  width: 28px;
+  height: 28px;
+}
+
+.dv-marker-choice__shape svg,
+.dv-marker-column svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.column-dv_stop_number,
+.column-dv_gallery,
+.column-dv_marker {
+  width: 80px;
+}
+
+.column-dv_photo {
+  width: 96px;
+}
+
+.column-dv_line {
+  width: 120px;
+}
+
+.dv-list-photo {
+  display: block;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.dv-list-photo--empty {
+  display: grid;
+  place-items: center;
+  border: 1px dashed #c3c4c7;
+  color: #8c8f94;
+  font-size: 11px;
+}
+
+.dv-line-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 6px;
+  border: 1px solid #dcdcde;
+  border-radius: 999px;
+  background: #fff;
+  color: #1d2327;
+  text-decoration: none;
+}
+
+.dv-line-badge__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+.wp-list-table .column-title strong {
+  font-size: 14px;
+}
+
+.dv-gallery__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.dv-gallery__item {
+  position: relative;
+  width: 120px;
+  margin: 0;
+}
+
+.dv-gallery__item img {
+  display: block;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.dv-gallery__alert {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  padding: 2px 6px;
+  background: #b32d2e;
+  color: #fff;
+  font-size: 11px;
+  border-radius: 2px;
+}
+
+.dv-gallery__alert[hidden] {
+  display: none;
+}
+
+.dv-gallery__actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.dv-gallery__actions .button-link {
+  min-width: 32px;
+  min-height: 28px;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.dv-gallery__remove {
+  color: #b32d2e;
+}
