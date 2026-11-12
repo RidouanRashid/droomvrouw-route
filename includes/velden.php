@@ -90,6 +90,36 @@ function droomvrouwroute_registreer_velden() {
     ) );
 
     acf_add_local_field_group( array(
+        'key'    => 'group_idee',
+        'title'  => 'Inzender (niet openbaar)',
+        'fields' => array(
+            array(
+                'key'          => 'field_idee_naam',
+                'label'        => 'Naam inzender',
+                'name'         => 'inzender_naam',
+                'type'         => 'text',
+                'instructions' => 'Wordt nooit op de site getoond, alleen hier voor opvolging.',
+            ),
+            array(
+                'key'          => 'field_idee_email',
+                'label'        => 'E-mailadres inzender',
+                'name'         => 'inzender_email',
+                'type'         => 'email',
+                'instructions' => 'Wordt nooit op de site getoond, alleen hier voor opvolging.',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param'    => 'post_type',
+                    'operator' => '==',
+                    'value'    => 'idee',
+                ),
+            ),
+        ),
+    ) );
+
+    acf_add_local_field_group( array(
         'key'    => 'group_laag',
         'title'  => 'Laag gegevens',
         'fields' => array(
@@ -150,6 +180,13 @@ function droomvrouwroute_registreer_velden() {
                 'label' => 'Instagram-URL',
                 'name'  => 'instagram_url',
                 'type'  => 'url',
+            ),
+            array(
+                'key'           => 'field_opties_instagram_video',
+                'label'         => 'Instagram-video/reel om te embedden (De Droomvrouw)',
+                'name'          => 'instagram_video_url',
+                'type'          => 'url',
+                'instructions'  => 'URL van een specifieke Instagram-post/reel (bv. https://www.instagram.com/reel/...). Leeg = alleen de gewone profiellink hierboven wordt getoond.',
             ),
             array(
                 'key'   => 'field_opties_facebook',

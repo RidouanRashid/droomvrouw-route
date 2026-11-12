@@ -17,7 +17,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
                 overlay.classList.toggle( 'is-actief', actief );
             }
 
-            schaal.querySelectorAll( '.infopunt-marker' ).forEach( function ( marker ) {
+            schaal.querySelectorAll( '.infopunt-marker, .infopunt-link' ).forEach( function ( marker ) {
                 var markerLagen = ( marker.getAttribute( 'data-laag' ) || '' ).split( ' ' );
                 if ( markerLagen.indexOf( slug ) === -1 ) {
                     return;
@@ -26,36 +26,6 @@ document.addEventListener( 'DOMContentLoaded', function () {
             } );
         } );
     } );
-
-    /* ================= Modal met infopunt-details ================= */
-    var modal = document.querySelector( '.infopunt-modal' );
-    var modalTekst = modal ? modal.querySelector( '.infopunt-modal-tekst' ) : null;
-
-    function modalOpenen( targetId ) {
-        var bron = document.getElementById( targetId );
-        if ( ! bron || ! modal || ! modalTekst ) {
-            return;
-        }
-        modalTekst.innerHTML = bron.innerHTML;
-        modal.hidden = false;
-    }
-
-    function modalSluiten() {
-        if ( modal ) {
-            modal.hidden = true;
-        }
-    }
-
-    if ( modal ) {
-        modal.querySelectorAll( '[data-modal-sluiten]' ).forEach( function ( el ) {
-            el.addEventListener( 'click', modalSluiten );
-        } );
-        document.addEventListener( 'keydown', function ( event ) {
-            if ( 'Escape' === event.key && ! modal.hidden ) {
-                modalSluiten();
-            }
-        } );
-    }
 
     /* ================= Pan & zoom ================= */
     var stand = { x: 0, y: 0, schaal: 1 };
@@ -99,7 +69,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
     var startStand = { x: 0, y: 0 };
 
     venster.addEventListener( 'pointerdown', function ( event ) {
-        if ( event.target.closest( '.infopunt-marker' ) ) {
+        if ( event.target.closest( '.infopunt-marker' ) || event.target.closest( '.infopunt-link' ) || event.target.closest( '.dvr-paneel-groep' ) ) {
             return;
         }
         slepen = true;
@@ -135,15 +105,16 @@ document.addEventListener( 'DOMContentLoaded', function () {
     venster.addEventListener( 'pointerup', slependStoppen );
     venster.addEventListener( 'pointercancel', slependStoppen );
 
-    /* Klik op een marker onderdrukken als het eigenlijk een sleep-gebaar was */
+    /* Klik op een marker onderdrukken als het eigenlijk een sleep-gebaar was.
+       Zonder sleep-gebaar is de marker gewoon een link (<a href>) naar de
+       eigen pagina van dat informatiepunt — de browser handelt die navigatie
+       zelf af. */
     schaal.querySelectorAll( '.infopunt-marker' ).forEach( function ( marker ) {
         marker.addEventListener( 'click', function ( event ) {
             if ( verplaatstAfstand > 6 ) {
                 event.preventDefault();
                 event.stopPropagation();
-                return;
             }
-            modalOpenen( marker.getAttribute( 'data-target' ) );
         } );
     } );
 
@@ -179,30 +150,11 @@ document.addEventListener( 'DOMContentLoaded', function () {
     if ( zoekveld && resultatenLijst ) {
         var alleMarkers = Array.prototype.slice.call( schaal.querySelectorAll( '.infopunt-marker' ) );
 
+        /* Een zoekresultaat gaat rechtstreeks naar de pagina van dat
+           informatiepunt — geen zoom/pan meer nodig, want je verlaat de
+           kaart toch meteen. */
         function springNaar( marker ) {
-            marker.getAttribute( 'data-laag' ).split( ' ' ).forEach( function ( slug ) {
-                if ( ! slug ) {
-                    return;
-                }
-                var toggle = document.querySelector( '.laag-toggle[data-laag="' + slug + '"]' );
-                if ( toggle && ! toggle.checked ) {
-                    toggle.checked = true;
-                    toggle.dispatchEvent( new Event( 'change' ) );
-                }
-            } );
-
-            var vensterRect = venster.getBoundingClientRect();
-            var links = parseFloat( marker.style.left ) / 100 * schaal.offsetWidth;
-            var boven = parseFloat( marker.style.top ) / 100 * schaal.offsetHeight;
-            stand.schaal = 2;
-            stand.x = vensterRect.width / 2 - links * stand.schaal;
-            stand.y = vensterRect.height / 2 - boven * stand.schaal;
-            begrenzen();
-            toepassen();
-
-            resultatenLijst.hidden = true;
-            zoekveld.value = marker.getAttribute( 'aria-label' ) || '';
-            modalOpenen( marker.getAttribute( 'data-target' ) );
+            window.location.assign( marker.href );
         }
 
         zoekveld.addEventListener( 'input', function () {

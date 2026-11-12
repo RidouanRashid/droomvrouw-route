@@ -17,6 +17,7 @@ require_once DVR_KAART_PATH . 'includes/post-types.php';
 require_once DVR_KAART_PATH . 'includes/velden.php';
 require_once DVR_KAART_PATH . 'includes/shortcode.php';
 require_once DVR_KAART_PATH . 'includes/positie-kiezer.php';
+require_once DVR_KAART_PATH . 'includes/idee.php';
 
 /**
  * Haalt een afbeeldingsveld (attachment-ID of losse URL) op als bruikbare URL.

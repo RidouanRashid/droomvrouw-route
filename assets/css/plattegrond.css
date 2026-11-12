@@ -71,13 +71,20 @@
 .dvr-paneel-groep {
     position: absolute;
     top: 1.5rem;
-    right: 1.5rem;
+    right: 4%;
     z-index: 20;
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
     max-width: min(90vw, 34rem);
     justify-content: flex-end;
+}
+
+/* "De lijnen" is alleen relevant op de kaart zelf; zodra een subpagina als
+   overlay open staat (zie body-klasse in functions.php/subpagina-overlay.js)
+   is die niet van toepassing en verdwijnt hij. "Menu" blijft gewoon staan. */
+body.dvr-overlay-open .dvr-paneel-lijnen {
+    display: none;
 }
 
 .dvr-paneel {
@@ -120,6 +127,42 @@
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
+}
+
+/* ---- Menu naast "De lijnen": typografie uit het GIMP-bestand
+   (Trebuchet MS Bold, letter-spacing 4px op 20px = 0.2em, kop ~1.2x de items) ---- */
+
+.dvr-paneel-menu,
+.dvr-paneel-menu summary,
+.dvr-paneel-menu ul,
+.dvr-paneel-menu a,
+.dvr-paneel-lijnen,
+.dvr-paneel-lijnen summary,
+.dvr-paneel-lijnen ul,
+.dvr-paneel-lijnen label {
+    font-family: 'Trebuchet MS', 'Trebuchet MS Bold', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #050333;
+}
+
+.dvr-paneel-menu summary,
+.dvr-paneel-lijnen summary {
+    font-size: 1.1rem;
+}
+
+.dvr-paneel-menu ul,
+.dvr-paneel-lijnen ul {
+    font-size: 0.9rem;
+}
+
+.dvr-paneel-menu a {
+    text-decoration: none;
+}
+
+.dvr-paneel-menu a:hover,
+.dvr-paneel-menu a:focus-visible {
+    text-decoration: underline;
 }
 
 /* ---- Zoekveld (linksonder) ---- */
@@ -180,6 +223,8 @@
 
 /* ---- Het kaartvenster (pan/zoom) ---- */
 
+/* Volledig scherm: geen kader, geen marges. "De lijnen"/Menu zweven er als
+   losse, absoluut gepositioneerde groep bovenop (zie .dvr-paneel-groep). */
 .dvr-kaart-venster {
     position: absolute;
     inset: 0;
@@ -297,6 +342,24 @@
     border-radius: 50%;
 }
 
+/* ---- Lijn-tekst die naar een subpagina linkt (bv. "PROJECTEN" op de
+   blauwe lijn) ---- */
+/* De tekst zelf staat al getekend in de lijn-afbeelding; dit is alleen een
+   onzichtbaar klikgebied erover, zonder puntje. Verschijnt (als klikbaar
+   gebied) pas zodra de bijbehorende laag aan staat, net als de lijn zelf. */
+.infopunt-link {
+    position: absolute;
+    width: 7rem;
+    height: 2.2rem;
+    transform: translate(-50%, -50%);
+    display: none;
+    cursor: pointer;
+}
+
+.infopunt-link.is-actief {
+    display: block;
+}
+
 .infopunt-marker:focus-visible {
     outline: 2px solid var(--dvr-inkt, #a13d2b);
     outline-offset: 2px;
@@ -331,62 +394,7 @@
     display: none;
 }
 
-/* ---- Modal ---- */
-
-.infopunt-modal[hidden] {
-    display: none;
-}
-
-.infopunt-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-}
-
-.infopunt-modal-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(20, 18, 12, 0.6);
-}
-
-.infopunt-modal-inhoud {
-    position: relative;
-    background: #fff;
-    max-width: 480px;
-    width: 100%;
-    max-height: 85vh;
-    overflow-y: auto;
-    border-radius: 8px;
-    padding: 2rem 1.5rem 1.5rem;
-}
-
-.infopunt-modal-sluiten {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    width: 2rem;
-    height: 2rem;
-    border: none;
-    background: transparent;
-    font-size: 1.5rem;
-    line-height: 1;
-    cursor: pointer;
-}
-
-.infopunt-modal-tekst h3 {
-    margin-top: 0;
-    font-family: var(--dvr-titel-font, 'Fredoka', sans-serif);
-}
-
-.infopunt-modal-tekst .subthema {
-    font-style: italic;
-    opacity: 0.75;
-    margin-top: -0.5rem;
-}
+/* ---- Social-knop (gebruikt op de detailpagina van een informatiepunt) ---- */
 
 .social-knop {
     display: inline-block;

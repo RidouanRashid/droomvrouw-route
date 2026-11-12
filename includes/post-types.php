@@ -30,6 +30,31 @@ function droomvrouwroute_registreer_infopunt() {
 }
 add_action( 'init', 'droomvrouwroute_registreer_infopunt' );
 
+function droomvrouwroute_registreer_idee() {
+    $labels = array(
+        'name'          => __( 'Ideeën', 'droomvrouwroute' ),
+        'singular_name' => __( 'Idee', 'droomvrouwroute' ),
+        'add_new_item'  => __( 'Nieuw idee toevoegen', 'droomvrouwroute' ),
+        'edit_item'     => __( 'Idee bewerken', 'droomvrouwroute' ),
+        'all_items'     => __( 'Alle ideeën', 'droomvrouwroute' ),
+        'search_items'  => __( 'Ideeën zoeken', 'droomvrouwroute' ),
+        'not_found'     => __( 'Geen ideeën gevonden', 'droomvrouwroute' ),
+    );
+
+    register_post_type( 'idee', array(
+        'labels'             => $labels,
+        'public'             => false,
+        'publicly_queryable' => false,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'show_in_rest'       => false,
+        'menu_icon'          => 'dashicons-lightbulb',
+        'supports'           => array( 'title', 'editor' ),
+        'has_archive'        => false,
+    ) );
+}
+add_action( 'init', 'droomvrouwroute_registreer_idee' );
+
 function droomvrouwroute_registreer_laag() {
     $labels = array(
         'name'          => __( 'Lagen', 'droomvrouwroute' ),
