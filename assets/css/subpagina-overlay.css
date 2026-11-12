@@ -1,0 +1,96 @@
+/**
+ * Overlay-kader voor subpagina's bovenop de (altijd aanwezige) kaart.
+ */
+
+.dvr-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 4rem 1.5rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.dvr-overlay.is-open {
+    opacity: 1;
+}
+
+.dvr-overlay-paneel {
+    position: relative;
+    pointer-events: none;
+    width: min(100%, 900px);
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
+    background: rgba(244, 236, 201, 0.35);
+    color: var(--dvr-navy, #0c0940);
+    text-shadow: 0 1px 3px rgba(244, 236, 201, 0.85), 0 0 10px rgba(244, 236, 201, 0.6);
+    font-family: 'Georgia', 'Times New Roman', serif;
+    border: 1px solid var(--dvr-rand, #ddd2ad);
+    box-shadow: 0 1.5rem 3rem rgba(12, 9, 64, 0.35);
+    padding: 2.5rem 2.25rem 3rem;
+    line-height: 1.6;
+    transform: translateY(14px);
+    transition: transform 0.25s ease;
+}
+
+.dvr-overlay.is-open .dvr-overlay-paneel {
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.dvr-overlay-sluiten {
+    position: sticky;
+    top: 0;
+    float: right;
+    margin: -1rem -0.75rem 0.5rem 0.75rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid var(--dvr-rand, #ddd2ad);
+    border-radius: 50%;
+    background: var(--dvr-crème, #f4ecc9);
+    color: var(--dvr-navy, #0c0940);
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.dvr-overlay-sluiten:hover {
+    background: var(--dvr-rand, #ddd2ad);
+}
+
+.dvr-overlay-inhoud h1 {
+    clear: both;
+    font-family: var(--dvr-titel-font);
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin: 0 0 1.25rem;
+}
+
+.dvr-overlay-laden {
+    font-style: italic;
+    opacity: 0.75;
+}
+
+/* De kaart zelf iets dimmen terwijl het kader open is — de kaart blijft
+   gewoon dezelfde, interactieve instantie, niets wordt herladen. */
+body.dvr-overlay-open .dvr-kaart-wrap {
+    filter: brightness(0.92) saturate(0.85);
+}
+
+@media (max-width: 700px) {
+    .dvr-overlay {
+        padding: 0;
+    }
+
+    .dvr-overlay-paneel {
+        width: 100%;
+        max-height: 100vh;
+        height: 100vh;
+        border-left: none;
+        border-right: none;
+        padding: 1.75rem 1.25rem 3rem;
+    }
+}
